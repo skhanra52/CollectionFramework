@@ -254,8 +254,127 @@ public class Main {
             Collections.swap(copied,i, copied.size() - 1 - i);
         }
         Card.printDeck(deck,"swap implementation", 4);
+        //-------------------------------------------------------------------------------------------------------
+        /*
+        * Understanding of importance of hash code
+        * ----------------------------------------
+        * HashSet and HashMap are based on the hash codes of object.
+        * Since, sets are designed to ensure uniqueness by not allowing duplicates, adding an element required first
+        * check if it is already exist in the set.
+        * For large sets, this checks can become costly, potentially, taking O(n) time, which is leaner in relation to
+        * the size of the set.
+        *
+        * One way to reduce the cast is through a technique called hashing.
+        * By using hashing, we can distribute elements into different buckets,
+        * If we divide the elements into two bucket, and each element can reliably determine its bucket, the lookup
+        * time can  be roughly halved.
+        *
+        * Similarly, if we use four buckets, the elements are distributed even further, which could reduce the number
+        * of comparisons needed in each bucket, improving lookup efficiency.
+        *
+        * A hashed collection will optimally create a limited set of buckets, to provide an even distribution of the
+        * object across the bucket in a full set.
+        * A hash code can be any valid integer, so it could be one of 4.2 billion valid number.
+        * If your collection only contain 100,000 elements, you don't want to back it with a storage mechanism of
+        * 4 billion possible placeholder.
+        * Additionally, iterating through 100,000 elements sequentially to find a match or duplicate would be
+        * inefficient.
+        *
+        * Instead, a hashing mechanism takes an integer hash code and a capacity declaration that specifies the number
+        * of buckets over which to distribute the objects.
+        * It then maps the wide range of possible hash codes into a more manageable range of bucket identifiers.
+        * Hash code implementation often combine the hash code with other techniques to create an efficient bucket
+        * system aims to evenly distribute objects, there by optimizing performance.
+        *
+        * To understand hashing in java, it helps to understand the equality of objects.
+        * There are two methods in java.util.Object, that all object inherit. These are equals() and hashCode() and the
+        * method signature from the object here.
+        *
+        * 1. Testing for equality:  public boolean equals(Object o)
+        * 2. The hashcode method: public int hashCode()
+        *
+        * what == means for object?
+        * It means two variable have the same reference to a single object in the memory.
+        * Because both reference are pointing to a same object, then this is obviously a good equality test.
+        * Equality of Object Object.equals():
+        * Object can be considered in other instances as well, if their attributes values are same.
+        * The String class override the equals() method, so that it can compare all the characters in the string, to
+        * confirm that the two strings are equal.
+        * Here is the example to understand the hashcode.
+        *
+        * */
 
+        String aText = "Hello";
+        String bText = "Hello";
+        String cText = String.join("l", "He", "lo");
+        String dText = "He".concat("llo");
+        String eText = "hello";
 
+        List<String> hellos = Arrays.asList(aText,bText,cText,dText,eText);
+        hellos.forEach(item -> System.out.println(item+" -> "+item.hashCode()));
+        /*
+        Output:
+        Hello -> 69609650
+        Hello -> 69609650
+        Hello -> 69609650
+        Hello -> 69609650
+        hello -> 99162322
+        If we look at the output , all four output with capital H has the same hashcode and hello with lowercase h
+        has a different hashcode. Java does not care if there is a different object in the memory when it tests the
+        equality of Strings using the equals() method. It just care the character match with once instance compare to
+        another instance.
+         */
+        /*
+        HashSet is the class that implements Set interface, and tracks duplicate by their hashcode.
+        The HashSet will only add new references to its collection if it does not find a match in its collection
+        --> VVI :   First using the hashcode and then the Object.equals() method.
+        --> VVI :   It uses the hashcode to create bucket identifier to store the new reference.
+         */
+        Set<String> mySet = new HashSet<>(hellos);
+        System.out.println(mySet); // output: [Hello, hello]
+
+        mySet.forEach((item) ->  System.out.println(item +" -> "+item.hashCode()));
+        /* Output:
+        Hello -> 69609650
+        hello -> 99162322
+         */
+        for(String setValue : mySet){
+            System.out.print(setValue + " : ");
+            for (int i=0;i<hellos.size();i++){
+                if(setValue == hellos.get(i)){
+                    System.out.print(i +" , ");
+                }
+            }
+            System.out.println(" ");
+        }
+        /*
+        Output:
+        Hello : 0 , 1 ,
+        hello : 4 ,
+
+        What happening here,
+        we set up five String reference variables(aText, bText, cText, dText, eText) in our program,
+        but two of them refer the same string object in the memory(aText, bText because the value of them are identical
+        "Hello" without any concat or String.join() method), for rest of the variable different memory has been assigned.
+        Reference Variables             Objects in Memory                           Hash Collection
+        aText   --------------->
+                        -------------> "Hello", hashcode: 69609650                  For all four one bucket has
+        bText   --------------->                                                    been created as hashcode are same
+                                                                                    Bucket 1: Element
+        cText   --------------------->  "Hello", hashcode: 69609650
+        dText   --------------------->  "Hello", hashcode: 69609650
+
+        eText   --------------------->  "hello", hashcode: 99162322                 Bucket 2: Element
+
+        An indexed bucket is created as an algorithm dependent on the hashcode.
+        If the hash codes are different, then unique elements are distributed across algorithmically identified buckets.
+        If the hash codes are same, the equals() method is used to determine if the elements in the bucket are equal or
+        duplicates.
+        When we passed the list of five strings to the HashSet , it added unique instance of its collection. It locates
+        elements to match, by first deriving its bucket to look through, based on hashcode.
+        It then compares those elements to the next element to be added, with other elements in that bucket using
+        equals() method.
+         */
 
 
 

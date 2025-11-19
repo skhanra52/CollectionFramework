@@ -14,7 +14,7 @@ public class Person {
     // Important: override the Objects.equals() and hashCode()
     @Override
     public boolean equals(Object o){
-        if(this == o) return true;
+        if(this == o) return true; // "this" and "o" will have the same reference to a single object in the memory.
         // before type casting in the next line it is checking if the type of object is matches
         if(!(o instanceof Person)) return false;
         Person p = (Person) o;
