@@ -374,6 +374,7 @@ public class Main {
         elements to match, by first deriving its bucket to look through, based on hashcode.
         It then compares those elements to the next element to be added, with other elements in that bucket using
         equals() method.
+        Note : Check the Person class to see how to override the hashcode() and equals() method.
          */
 
 
