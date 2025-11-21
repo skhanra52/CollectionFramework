@@ -375,7 +375,28 @@ public class Main {
         It then compares those elements to the next element to be added, with other elements in that bucket using
         equals() method.
         Note : Check the Person class to see how to override the hashcode() and equals() method.
+        For detail: Video 205
          */
+
+        PlayingCard aceOfHearts = new PlayingCard("Hearts", "Ace");
+        PlayingCard kingOfClubs = new PlayingCard("Clubs", "King");
+        PlayingCard queenOfSpades = new PlayingCard("Spades", "Queen");
+
+        List<PlayingCard> playingCards = Arrays.asList(aceOfHearts,kingOfClubs,queenOfSpades);
+        playingCards.forEach(s -> System.out.println(s+" -> "+s.hashCode()));
+
+        // To add in set by coping the List we can use the parameterized constructor.
+        // Set<PlayingCard> playingCardSet = new HashSet<>(playingCards);
+
+        //Here we are trying to display the hashcode of each playing card using for loop
+        Set<PlayingCard> playingDeck = new HashSet<>();
+        for(PlayingCard c : playingCards){
+            if(!(playingDeck.add(c))){// add() method in any collection returns true if any collection successfully added
+                System.out.println("Found a duplicate for "+c);
+            }
+        }
+        System.out.println("Deck "+playingDeck);
+
 
 
 
