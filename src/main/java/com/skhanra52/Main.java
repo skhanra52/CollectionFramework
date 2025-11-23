@@ -256,8 +256,8 @@ public class Main {
         Card.printDeck(deck,"swap implementation", 4);
         //-------------------------------------------------------------------------------------------------------
         /*
-        * Understanding of importance of hash code
-        * ----------------------------------------
+        * --------Understanding of importance of hash code-----------------------------------------------------
+        *
         * HashSet and HashMap are based on the hash codes of object.
         * Since, sets are designed to ensure uniqueness by not allowing duplicates, adding an element required first
         * check if it is already exist in the set.
@@ -385,8 +385,10 @@ public class Main {
         List<PlayingCard> playingCards = Arrays.asList(aceOfHearts,kingOfClubs,queenOfSpades);
         playingCards.forEach(s -> System.out.println(s+" -> "+s.hashCode()));
 
-        // To add in set by coping the List we can use the parameterized constructor.
-        // Set<PlayingCard> playingCardSet = new HashSet<>(playingCards);
+        /*
+        To add in set by coping the List we can use the parameterized constructor.
+        Set<PlayingCard> playingCardSet = new HashSet<>(playingCards);
+        */
 
         //Here we are trying to display the hashcode of each playing card using for loop
         Set<PlayingCard> playingDeck = new HashSet<>();
@@ -397,8 +399,91 @@ public class Main {
         }
         System.out.println("Deck "+playingDeck);
 
+       //----Setup for Set and HashSet----------------------------------------------------------------------------
+       /*
+       In this example, HashSet will be used as fields, and we will use Scanner class.
+       We will be using Scanner with just a String passed to the constructor.
 
+       We have tp create a Contact class, that has the fields, name , a String, email, and a HashSet of String, phones,
+       another HashSet of String.
+       Fields:
+        String name;
+        long phone;
+        Set<String> email = new HashSet<>();
+        Set<String> phones = new HashSet<>();
+       Constructor:
+        Contact(String name);
+        Contact(String name, String email);
+        Contact(String name, long phone);
+        Contact(String name, String email, long phone);
+       Methods:
+        String getName();
+        String toString();
+        Contact mergeContactData(Contact contact)
 
+        The last constructor should do the following:
+        -> Add the email argument to the email set, if email is not null.
+        -> Transform the phone argument, a long(if it is not zero), to a String in the format (123) 456-7890.
+        -> Add transformed phone to the phones set.
+       Finally include the method call mergeContactData(), that takes a contact, and return a new contact instance,
+       which merges the current instance with the contact passed.
+
+       Second Class: ContactData class
+        The ContactData class is going to emulate getting data from an external source, but instead of external source
+        we will set this data up with two different text books, in the format below
+        Phone Data                          |   Email Data
+        ---------------------------------------------------------------------------
+        Suman Khanra, 8553242342            |  Geetha, geethaxyz@gmail.com
+        Charlie Brown,3334445556            |  suman Khanra, example1@gmail.com
+        Robin Hood,   4562341234            |  Geetha, geethaxyz@gmail.com
+        Charlie Brown,3334445556
+
+        -> Create a method name getData(), that takes String type(either "phone" or "email")and return a List of contact
+        -> We are going to use the scanner to parse the data in this text blocks.
+
+        In this main method we have to see public static void printData(String header, Collection<Contact> contacts){}
+
+        */
+        List<Contact> emails = ContactData.getData("email");
+        List<Contact> phones = ContactData.getData("phone");
+        printData("Phone List", phones);
+        printData("Email List", emails);
+        /* Introduction to Java Set and HashSet--------------------------------------------------------------
+        A Set is not implicitly ordered.
+        A set contain no duplicate.
+        A Set may contain single null element.
+        Sets can be useful because operations on them is are very fast.
+        -> Set methods:
+        -> The Set interface defines the basic methods, add, remove and clear, to maintain the items in the set.
+        -> You can also check if the specific element is their in the set using the contains() method.
+        -> There is no way to retrieve an element from the set. You can check if something exist using contains(), and
+           you can iterate over all the elements in the set, but attempting to get the 10th element, for example, from a
+           Set isn't possible with a single method.
+
+        The HashSet----------------
+        -> The best-performing implementation of the Set interface is the HashSet class. This class uses hashing mechanisms
+           to store items. This means the hashcode method is used to support even distributions of objects in the set.
+        -> Oracle describes this class as offering constant time performance for the basic operations
+           (add,remove,contains,size).
+        -> This assumes the hash function disperses the elements properly among the buckets.
+        -> Constant time has the Big O notation O(1).
+        -> The HashSet actually uses a HashMap in its own implementation as of JDK 8.
+        -> Continued the code setup of Set and HashSet where we have two classes Contact class and ContactData Class....
+        * */
+        // Combine these contacts, merging any duplicates into a single contact, with multiple emails and phone numbers,
+        // on a single record.
+        Set<Contact> emailContacts = new HashSet<>(emails); // emails is a List(which is a collection)
+        Set<Contact> phoneContacts = new HashSet<>(phones); // phones is a List(which is a collections)
+        printData("Email set", emailContacts);
+        printData("Phone set", phoneContacts);
+        /*
+        In the output we still see the duplicates in the hashed collections however not in the same order as earlier.
+        For hashed collections, first by the hash code method, and the equals() method, are using Objects implementation.
+        This means each of the instances of contacts are considered unique.
+        But since these are personal contacts, we have to make a rule, that contacts that have the same name,
+        are really the same person, but with different data. For that we need to override equals() and hashcode()
+        in the Contact class.
+         */
 
     }
 
@@ -407,4 +492,12 @@ public class Main {
         if(list == null || name == null) return false;
         return list.stream().anyMatch(n -> n.equalsIgnoreCase(name));
     }
+
+    public static void printData(String header, Collection<Contact> contacts){
+        System.out.println("-------------------------------------------");
+        System.out.println(header);
+        System.out.println("-------------------------------------------");
+        contacts.forEach(System.out::println);
+    }
+
 }
