@@ -25,9 +25,7 @@
  *        */
 package com.skhanra52;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class Contact {
     private String name;
@@ -83,8 +81,40 @@ public class Contact {
         return Objects.equals(getName(), contact.getName()) ;
     }
 
+//    @Override
+//    public boolean equals(Object o) {
+//        if (o == null || getClass() != o.getClass()) return false;
+//        Contact contact = (Contact) o;
+//        return Objects.equals(getName(), contact.getName()) && Objects.equals(emails, contact.emails) && Objects.equals(phones, contact.phones);
+//    }
+
     @Override
     public int hashCode() {
-        return Objects.hash(getName(), emails, phones);
+        return 31 * Objects.hash(getName());
     }
+
+    /*
+     * It will generate the companyEmail with the current instances of email set.
+     */
+    public void addEmail(String companyName){
+        String[] names = name.split(" ");
+        System.out.println("names"+ Arrays.toString(names));
+        String email = "%c%s@%s.com".formatted(name.charAt(0),names[names.length - 1],
+                companyName.replaceAll(" ","").toLowerCase());
+        System.out.println("Emails "+email);
+        if(!emails.add(email)){
+            System.out.println(name+ " Name is already exist..");
+        }else{
+            System.out.println(email+ " email has been added to the contact");
+        }
+    }
+
+    public void replaceEmailIfExists(String oldEmail, String newEmail){
+        if(emails.contains(oldEmail)){
+            emails.remove(oldEmail);
+            emails.add(newEmail);
+        }
+    }
+
+
 }

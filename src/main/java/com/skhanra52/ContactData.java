@@ -24,13 +24,14 @@ public class ContactData {
             Suman Khanra, 8553242342
             Charlie Brown,3334445556
             Robin Hood,   4562341234
-            Charlie Brown,3334445556
+            Charlie Brown,3334445557
             """;
     private static final String emailData = """
             Geetha, geethaxyz@gmail.com
             Suman Khanra, example1@gmail.com
             Geetha, geethaxyz@gmail.com
-            Suman Khanra, example1@gmail.com
+            Suman Khanra, example2@gmail.com
+            Robin Hood,   example3@gmail.com
             """;
 
 

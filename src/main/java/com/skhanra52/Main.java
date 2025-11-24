@@ -485,6 +485,118 @@ public class Main {
         in the Contact class.
          */
 
+        int index = emails.indexOf(new Contact("Robin Hood")); // this is working as we have overridden equals() by name.
+        System.out.println(emails);
+        System.out.println("index "+index);
+        Contact robinHood = emails.get(index);
+        System.out.println(robinHood);
+        robinHood.addEmail("Sherwood Forest");
+        System.out.println(robinHood);
+
+        robinHood.replaceEmailIfExists("RHood@sherwoodforest.com","RHood@sherwoodforest.org");
+        System.out.println(robinHood);
+        /*
+        Set Math or Set Operation:----------------------------------------
+        When we are trying to understand the data in multiple sets, we might want to get the data that's in all the sets,
+        that's in every Set, or data where there's no overlap.
+        -> The Collection interface's bulk operations(addAll, retainAll, removeAll, and containAll) can be used to
+            perform these set operations.
+        Representing Sets in Venn Diagram---------------------------------
+        Sets are often represented as circles or ovals, with elements inside, on what is called Venn diagram.
+
+                             Set A                                               Set B
+                        Linus Van Pelt                                          Daffy Duck
+                        Lucy Van pelt                                           Mickey Mouse
+                        Charlie Brown                                           Minnie Mouse
+
+        Here, the Sets contains no elements are in common. Because the items are distinct so there is no overlap.
+        If there is few items shared in both the sets then the circle will be overlapped and inside the overlapped
+        area shared items will be represented.
+                              Set A               Shared elements                  Set B
+                        Linus Van Pelt              Goofy                       Daffy Duck
+                        Lucy Van pelt               Snoopy                      Mickey Mouse
+                        Charlie Brown                                           Minnie Mouse
+
+        -> Intersection of Set - Intersect - A intersect B:
+        The intersection of these Sets is represented by the area where the two Sets overlapped and the area contains
+        Goofy and Snoopy. Goofy and Snoopy are in both Sets, "Set A" and "Set B". So if we want to get the intersection
+        of two Sets SetA and SetB then it will return Goofy and Snoopy. If the intersection has duplicate elements then
+        it will only add the first element to the Collection.
+            All elements IN COMMON, so any elements that are part of both sets.
+            C.addAll(A);
+            C.retainAll(B)
+
+
+        -> Set Operation Union A U B:
+        The union of two or more sets will return elements that are in any or all of the sets, removing any duplicates.
+        A U B = All the items in Set A and Set B without duplicate, meaning if there are intersection then it will
+        consider those items once from the first set.
+        -> Java does not have union method on the Collection, but the addAll() method when used on Set, can be used
+           to create a union of multiple Sets.
+        We will use the two sets which we have created earlier called "emailContacts" and "phoneContacts" to demonstrate
+        union of contact by name.
+        -> Both union and intersection are symmetric operation, meaning A U B or B U A,  A ∩ B or B ∩ A gives same result.
+         */
+        // Union of A and B
+        Set<Contact> unionByName = new HashSet<>(emailContacts);
+        unionByName.addAll(phoneContacts);
+        System.out.println("----------------------------------------------");
+        System.out.println("Union of Contacts \n"+unionByName);
+
+        // Intersection of Set A ∩ B:
+        Set<Contact> interSectAB = new HashSet<>(emailContacts);
+        interSectAB.retainAll(phoneContacts);
+        System.out.println("-------Contacts with email----------------------------------------");
+        // ∩ ASCII character \n2229
+        System.out.println("(A ∩ B) Intersect emails A and phones B: "+interSectAB);
+
+        // Intersection of Set A ∩ B:
+        Set<Contact> interSectBA = new HashSet<>(phoneContacts);
+        interSectBA.retainAll(emailContacts);
+        System.out.println("-------Contacts with phone numbers----------------------------------------");
+        // ∩ ASCII character \n2229
+        System.out.println("(B ∩ A) Intersect phones B and emails A : "+interSectBA);
+        /*-------Set Operations - Asymmetric Difference----------------------------------------------
+        Another useful evaluation might be to identify which elements are in one set, but not the other. This is
+        called a set difference. A difference subtracts elements in common from one Set and another, leaving only
+        the distinct elements from the first Set as the result.
+
+                    Set A               (Shared elements)                  Set B
+                 Linus Van Pelt          Mickey Mouse                  Lucy Van pelt
+                 Daffy Duck              Minnie Mouse                  Charlie Brown
+                 Mickey Mouse -common    Robin Hood                    Maid Marion
+                 Minnie Mouse -common                                  Mickey Mouse - common
+                 Robin Hood   -common                                  Minnie Mouse - common
+                                                                       Robin Hood   - common
+         -> Set differences(Asymmetric)
+         C = A-B
+         D = B-A
+         -> Set difference A - B
+         Linus Van Pelt
+         Daffy Duck
+          -> Set difference B - A
+         Lucy Van pelt
+         Charlie Brown
+         Maid Marion
+         */
+
+        // Difference Asymmetric of Set A - B:
+        Set<Contact> AMinusB = new HashSet<>(emailContacts);
+        AMinusB.removeAll(phoneContacts);
+        System.out.println("-------Contacts difference by email between set A - Set B ----------------------------------------");
+        // ∩ ASCII character \n2229
+        System.out.println("(A - B) emails A - phones B: "+AMinusB);
+
+         /*-------Set Operations - Symmetric Difference----------------------------------------------
+         The set symmetric difference, as the elements from all sets that don't intersect.
+         -> The Symmetric difference
+         (union of SetA and SetB) - (intersection of SetA and SetB)
+         -> union of SetA and SetB : will give us all the elements of SetA and SetB and common elements without duplicate.
+         -> intersection of SetA and SetB: will give us only common elements.
+         -> (union of SetA and SetB) - (intersection of SetA and SetB): Will give us all the elements of SetA and SetB
+            without common elements.
+          */
+
     }
 
     // Helper class to compare the string without case-sensitive
