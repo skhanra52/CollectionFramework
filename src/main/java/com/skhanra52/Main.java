@@ -597,6 +597,68 @@ public class Main {
             without common elements.
           */
 
+        /* Order Sets--LinkedHashSet/TreeSet------------------------------------------------------------
+        If we want to consider order set then we have to use either LinkedHashSet or TreeSet.
+                     LinkedHashSet                                   TreeSet
+                   ------------------                           ---------------------
+       -> It maintains the insertion order.                     -> It is sorted Collection. Sorted naturally. Or Specific
+                                                                   required sort during creating of the set.
+
+       -> LinkedHashSet:---------------------
+            -> The LinkHashSet extends the HashSet class. It maintains the relationship between elements using the doubly
+            link list between entries.
+            -> The "iteration order" is therefore the same as the "insertion order" of the elements, meaning  the order is
+            predictable.
+            -> All the methods for the LinkedHashSet are the same as those for the HashSet.
+            -> Link HashSet, it provides constant-time performance, O(1) for add, contains, and remove operations.
+       -> TreeSet: ---------------------------
+            -> A TreeSet's class uses a data structure that's a derivative of what's called a binary search tree, or a
+               Btree for short,which is based on the concept and efficiencies of binary search.
+            -> As elements are added to a TreeSet, they are organized in the form of a tree, where the top of the tree
+               represents the mid-point of the elements.
+            -> The left node and its children are elements that are less than the parent node.
+            -> The right node and its children are elements that are grater than the parent node.
+            -> Instead of looking through all the elements in the Collection to locate a match, this allows the tree to
+               be quickly traversed, each not being a simple decision point.
+            -> Java's internal implementation uses a balanced tree data structure called the red black tree. The main
+               point is the tree remains balanced as the elements are added.
+          -> TreeSet O Notation----------------------
+              Remember that O(1) is constant time, meaning the time or cost of the operation doesn't change regardless of
+              how many elements are processed.
+              O(n) is the linear time, meaning it grows in line with the way the collection grows.
+              Another notation is Big O(log(n)), which means cost falls somewhere in between constant and linear time.
+              The TreeSet promises O(log(n)) for the add, remove, and contains operations, compare to the HashSet which has
+              constant time O(1) for those same operation.
+          -> The TreeSet(Class) interface hierarchy:----------------------------
+                1. The TreeSet can be declared and passed to arguments typed with any of the interfaces given below:
+
+                <<interface>> Collection
+                Collection<String> strCollection = new TreeSet<>();
+
+                <<interface>> Set
+                Set<String> set = new TreeSet<>();
+
+                <<Interface>> SortedSet
+                SortedSet<String> sortedSet = new TreeSet<>();
+
+                <<interface>> NavigableSet
+                NavigableSet<String> treeSet = new TreeSet<>();
+
+                2. The TreeSet class is sorted and implements the "SortedSet" interface, which has methods such as
+                   first(), last(), headSet() and tailSet(), as well as comparator.
+
+                3. This set also maintains the navigableSet interface. As such, it has methods such as ceiling(),
+
+           -> The TreeSet relies on comparable or comparator methods:--------------------------------
+                1. Elements which implements comparable(said to have natural order sort, like strings and numbers)
+                   can be elements of a treeSet.
+                2. If your elements don't implement comparable, you must pass a comparator to the constructor.
+
+
+
+
+         */
+
     }
 
     // Helper class to compare the string without case-sensitive
