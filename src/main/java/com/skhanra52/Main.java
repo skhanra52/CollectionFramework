@@ -629,7 +629,7 @@ public class Main {
               Another notation is Big O(log(n)), which means cost falls somewhere in between constant and linear time.
               The TreeSet promises O(log(n)) for the add, remove, and contains operations, compare to the HashSet which has
               constant time O(1) for those same operation.
-          -> The TreeSet(Class) interface hierarchy:----------------------------
+          -> The TreeSet(Class) interface hierarchy:---For some function look at TreeSetMain class-------------------------
                 1. The TreeSet can be declared and passed to arguments typed with any of the interfaces given below:
 
                 <<interface>> Collection
@@ -653,11 +653,25 @@ public class Main {
                 1. Elements which implements comparable(said to have natural order sort, like strings and numbers)
                    can be elements of a treeSet.
                 2. If your elements don't implement comparable, you must pass a comparator to the constructor.
+         */
+        //---------------------------------MAP Explanation--------------------------------------------------------------
 
+        /* The MAp interface and why is it different from other Collection interfaces?
+        A map in the Collection's framework another data structure.
+        Although it's still a grouping of elements, it different because elements are stored with keyed references.
+        This means a Map required two type arguments as given below:
+         -> interface MAP<K, V>
+         -> As with any generic classes, the only restriction on these type is that they must be reference types. And
+         not primitives type.
+         -> A Java MAP can not contain duplicate key. And each key can only map to a single value.
 
-
+       MAP implementations:------------------------------------
+          -> The HashMap - It is unordered.
+          -> LinkedHashMap - sorted by insertion order.
+          -> TreeMap - Sorted map.
 
          */
+
 
     }
 
