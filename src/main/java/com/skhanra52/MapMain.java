@@ -73,6 +73,9 @@ public class MapMain {
         System.out.println(contacts);
         System.out.println("-------------------------------------------");
         contacts.clear();
+        /*
+        Map method : merge() added in JDK 8, [key,value, function]
+         */
         fullList.forEach(contact ->
                 contacts.merge(
                         contact.getName(),
@@ -90,5 +93,83 @@ public class MapMain {
                         )
         );
         System.out.println(contacts);
+        /*
+        Map methods: compute, computerIfPresent, computeIfAbsent added in JDK 8
+        -> The compute and computeIfAbsent also take two values for their biFunction, but these represent key and
+           current values associated with that, key(or null if the key is absent in case of computerIfAbsent),
+           rather than two contact object.
+        -> The compute methods give you a lot of functionality, for adding elements that aren't in the map,
+           replacing values already keyed, resetting all elements in the map to some default value, or executing
+           some code on the map elements that do exist.
+         */
+        System.out.println("------------computer()-------------------------------------");
+        for(String contactName : new String[]{"Daisy Duck", "Daffy Duck"}){
+            contacts.compute(contactName, (k,v) -> new Contact(k));
+        }
+        // it replaces the values with new contact, does not matter whether the key is present or not. values will be
+        // replaced from the computed biFunction of compute method. Even though Robin Hood is existing contact but the
+        // values is empty.
+        contacts.forEach((k,v) -> System.out.println("k -> "+k+ ", v -> "+v));
+        // computerIfAbsent()-----------
+        System.out.println("----------computerIfAbsent()----------------------------------------");
+        for(String contactName : new String[]{"Robin Hood", "Suman Khanra", "Geetha", "Daisy Duck", "Daffy Duck"}){
+            contacts.computeIfAbsent(contactName, k -> new Contact(k));
+        }
+        contacts.forEach((k,v) -> System.out.println("k -> "+k+ ", v -> "+v));
+
+
+        System.out.println("----------computeIfPreset()-----opposite of computerIfAbsent-------------------------");
+        for(String contactName : new String[]{"Robin Hood", "Suman Khanra", "Geetha", "Daisy Duck", "Daffy Duck"}){
+            contacts.computeIfPresent(contactName, (k,v) -> {
+                v.addEmail("gmail");
+                return v;
+            });
+        }
+        contacts.forEach((k,v) -> System.out.println("k -> "+k+ ", v -> "+v));
+        System.out.println("----------replaceAll()-------------------------------------------------------------");
+        /*
+        Map replace all take [k,v] and a function which should return an object of same type as the value.
+        In this below example we are computing replaceAll() method on all the contacts and replacing values of all the
+        contacts and replacing the particular email at the end.
+         */
+
+        contacts.replaceAll((k,v)->{
+            System.out.println("k -> "+k+ " v -> "+v);
+            String newEmail = k.replaceAll(" ", " ") +"@funplace.com";
+            System.out.println("newEmail -> "+newEmail);
+            v.replaceEmailIfExists("example1@gmail.com",newEmail);
+            return v;
+        });
+        contacts.forEach((k,v) -> System.out.println("k -> "+k+ ", v -> "+v));
+        System.out.println("----------replace()-------------------------------------------------------------");
+        /*
+        In the replace() we can only replace the particular contact based on key match of (key and value) match.
+        There are two overloaded version of remove methods.
+         */
+        Contact suman = new Contact("Suman Khanra", "skhanra100@yahoo.com");
+        Contact replacedContact = contacts.replace("Suman Khanra", suman); // returns the previous existing value
+        System.out.println("Suman "+suman);
+        System.out.println("replacedContact "+replacedContact);
+        System.out.println(contacts);
+
+        System.out.println("---------replace() overloaded boolean return------------------------------------------");
+
+        assert replacedContact != null;
+        Contact updatedSumanContact = replacedContact.mergeContactData(suman);
+        System.out.println("Updated suman's contact "+updatedSumanContact);
+        boolean success = contacts.replace("Suman Khanra", replacedContact, updatedSumanContact);
+        if(success){
+            System.out.println("Successfully replaced element.");
+        }else{
+            System.out.printf("Did not match on both key: %s and value: %s  %n ".formatted("Suman Khanra", replacedContact));
+        }
+        System.out.println(contacts);
+        System.out.println("----------------remove()---------------------------------------------------------------");
+        /*
+        There are two overloaded remove() methods.
+        -> The first remove() takes a key and return the value that was removed.
+        -> The second remove() takes both key and value, it only removes the element from the map, if the key is in map,
+           and the element to be removed equals the value passed. This method returns boolean.
+         */
     }
 }
