@@ -171,5 +171,38 @@ public class MapMain {
         -> The second remove() takes both key and value, it only removes the element from the map, if the key is in map,
            and the element to be removed equals the value passed. This method returns boolean.
          */
+        System.out.println("----------------remove()---------------------------------------------------------------");
+        /*
+        HashMap's Implementation:-------------------------------
+            <<Interface>>/methods available       implementation        <<Interface>>           Implementation
+            ----------------------------------------------------        ------------------------------------------------
+            Map<K,V>            -------->         new HashMap<>();      Map.Entry<K,V>  ---->   HashMap.Node(K,V)
+                                                  table:Node[]          <------------------     key: K; value: V
+            keySet(): Set<K>
+            entrySet<>: Set<Map.Entry<K,V>>
+            values(): Collection<V>
+
+            -> There is a static nested interface on the Map interface, and that its name is Entry.
+            -> Concrete classes implements both Map interface and Map.Entry interface.
+            -> The HashMap implement Map, and has a static nested class, Node, that implements the Map.Entry interface.
+            -> The HashMap maintains an array of these Nodes, in a field called table, whose size is managed by Java.
+               and the whole indices are determined by Hashing function. For this reason HashMap is not ordered.
+
+            The Map view Collection:-------------------------------------------------
+            -> There are three view collection we get from the Map, these are keySet(), entrySet() and values().
+            -> Map keys can't be duplicate, these keys are retrieved as a set view, by calling the keySet() method
+               on any map object. keySet(): Set<K>
+            -> Each key value pair is stored as an instance of an Entry, and the combination of key and values will
+               be unique, because the key is unique.
+            -> A Set view of these entries, or nodes, in case of the HashMap, can be retrieved from the method
+               entrySet().
+            -> Finally, values are stored and referred by the key, and value can be duplicates, meaning, multiple keys
+               could refer a single value.
+            -> We can get a collection view of these from the values() method, on a Map instance.
+
+
+            Note: note to see the implementation of keySet()/entrySet()/values() refer MapViewMain class.
+
+         */
     }
 }
