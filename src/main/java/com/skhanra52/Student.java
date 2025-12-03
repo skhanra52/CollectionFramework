@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 record Course(String courseId, String name, String subject){}
-record Purchase(String courseId, int studentIs, double price, int yr, int dayOfYear ){
+record Purchase(String courseId, int studentId, double price, int yr, int dayOfYear ){
     // Yr is the date of purchase and dayOfYear from 1-365.
 
     // will be used as key in the upcoming maps.
