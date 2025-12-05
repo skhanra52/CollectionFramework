@@ -9,8 +9,46 @@ import java.util.*;
     -> The LinkedHashMap is a key/value entry collection whose keys are ordered by insertion order.
     -> The TreeMap is sorted by its keys, so a key needs to implement comparable,
        or be initialized with a specific comparator.
+    -> SortedMap<K, V> is and interface that guarantees:
+        => Keys are sorted in ascending natural order, or sorted using custom comparator.
+        It adds methods like:
+            Method	                                    Purpose
+        *   Comparator<? super K> comparator()	        Returns custom comparator, or null for natural order
+        *   K firstKey()	                            Returns smallest key
+        *   K lastKey()	                                Returns largest key
+        *   SortedMap<K,V> headMap(K toKey)	            View of keys strictly less than toKey
+        *   SortedMap<K,V> tailMap(K fromKey)	        View of keys greater or equal to fromKey
+        *   SortedMap<K,V> subMap(K fromKey, K toKey)	Keys from fromKey (inclusive) to toKey (exclusive)
 
-     Created a class called Student, see further over there.
+    -> Interface NavigableMap extends SortedMap (TreeMap class implements it)
+        => public interface NavigableMap<K, V> extends SortedMap<K, V>{}
+        => TreeMap<K,V> implements NavigableMap<K,V>, SortedMap<K,V>
+
+    gives methods like below(Perfect for date related data):
+    Navigation Methods (added by NavigableMap)
+            Method	                                                Meaning
+        *   K lowerKey(K key)	                                    < key
+        *   K floorKey(K key)	                                    ≤ key
+        *   K ceilingKey(K key)	                                    ≥ key
+        *   K higherKey(K key)	                                    > key
+
+        *   Map.Entry<K,V> lowerEntry(K key)	                    Entry < key
+        *   Map.Entry<K,V> floorEntry(K key)	                    Entry ≤ key
+        *   Map.Entry<K,V> ceilingEntry(K key)	                    Entry ≥ key
+        *   Map.Entry<K,V> higherEntry(K key)	                    Entry > key
+
+        *   Map.Entry<K,V> firstEntry()	                            Smallest entry
+        *   Map.Entry<K,V> lastEntry()	                            Largest entry
+
+        *   Map.Entry<K,V> pollFirstEntry()	                        Removes and returns smallest
+        *   Map.Entry<K,V> pollLastEntry()	                        Removes and returns largest
+
+        *   NavigableMap<K,V> descendingMap()	                    Reverse order view
+        *   NavigableSet<K> navigableKeySet()	                    Keys in normal order
+        *   NavigableSet<K> descendingKeySet()	                    Keys in reverse order
+        *   NavigableMap<K,V> subMap(from, fromInc, to, toInc)	    Range with inclusiveness choice
+        *   NavigableMap<K,V> headMap(toKey, inclusive)	            Head range with inclusive flag
+        *   NavigableMap<K,V> tailMap(fromKey, inclusive)	        Tail range with inclusive flag
      */
 
 public class SortedMapMain {
@@ -139,6 +177,15 @@ public class SortedMapMain {
         periodData.forEach((key,value) -> {
             System.out.println(key+" --> "+value);
             for(Purchase p : value){
+                /* merge(key, value, remappingFunction);
+                how the remapping function works ,
+                arg previous = old value, already in map
+                arg current = new value,
+                 (previous , current) -> {
+                    ... merge logic ...
+                }
+
+                 */
                 weeklyCounts.merge(p.courseId(),
                         1,
                         Integer::sum); //this is nothing but : (prev,current) -> { return prev+current;}
