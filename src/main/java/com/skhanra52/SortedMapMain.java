@@ -120,6 +120,20 @@ public class SortedMapMain {
         and pollLastKey, pollFirstKey, pollLastEntry, pollFirstEntry
 
          */
+        LocalDate lastDate = datedPurchases.lastKey();
+        System.out.println("lastDate -> "+lastDate);
+        Map.Entry<LocalDate,List<Purchase>> previousEntry = datedPurchases.lastEntry();
+        System.out.println("previousEntry -> "+previousEntry);
+
+        while (previousEntry != null){
+            List<Purchase> lastDaysData = previousEntry.getValue();
+            System.out.println(lastDate+" purchases: "+lastDaysData.size());
+
+            LocalDate prevDate = datedPurchases.lowerKey(lastDate); // giving the just prev entry of lastDate, like prev--
+            System.out.println("prevDate -> "+prevDate);
+            previousEntry = datedPurchases.lowerEntry(lastDate); // just one previous entry
+            lastDate = prevDate;
+        }
 
 
     }
