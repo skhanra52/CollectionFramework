@@ -134,6 +134,32 @@ public class SortedMapMain {
             previousEntry = datedPurchases.lowerEntry(lastDate); // just one previous entry
             lastDate = prevDate;
         }
+        System.out.println("-------------EnumSet and EnumMap---------------------------------------");
+        /*
+        We can use any List,Set or Map, with an Enum constant.
+        The EnumSet and EnumMap, both have a different implementation than the HashSet or HashMap.
+        These implementations make these two type extremely compact and efficient.
+        Note: There is no special list implementation for Enum types.
+
+        EnumSet----------------------------------------------------------------------------------------------
+        -> The EnumSet is a specialized set implementation for use with enum values.
+        -> All the elements in an EnumSet must come from a single enum type.
+        -> The EnumSet is abstract, meaning we can't instantiate directly. It comes with many factory methods
+           to create instances.
+        -> In general, this set has much better performance than using a HashSet with an enum type.
+        -> Bulk operations(such as containsAll and retailAll) should run very quickly, in constant time,O(1), if
+           they run on an EnumSet, and their argument is an EnumSet.
+        EnumMap----------------------------------------------------------------------------------------------
+        -> The EnumMap is a specialized Map implementation for using with enum type keys.
+        -> The keys must all come from the same enum type, and they are ordered naturally by the ordinal value of the
+           enum constants.
+        -> This Map has the same functionality as HashMap, with O(1) for basic operations.
+        -> The enum kay type is specified during construction of EnumMap, either explicitly by passing the key's type
+           class, or implicitly by passing another EnumSet.
+        -> In general, this map has better performance than using HashMap, with an enum type.
+
+
+         */
 
 
     }
