@@ -28,33 +28,54 @@ public class EnumCollectionMain {
          */
 
         annsDaysSet.forEach(System.out::println);
-        System.out.println("---------------------------------------");
+        System.out.println("--------allOf()-------------------------------");
         EnumSet<weekDay> allDaysSet = EnumSet.allOf(weekDay.class);
         allDaysSet.forEach(System.out::println);
         System.out.println("---------------------------------------");
         /*
-        Full set of possible workDays minus annsDaysSet, it gies the difference of original set and provided set.
-        Same can be achived using removeAll() method.
+        Full set of possible workDays minus annsDaysSet, it gives the difference of original set and provided set.
+        The same can be implemented using removeAll() method.
          */
         Set<weekDay> newPersonDays = EnumSet.complementOf(annsDaysSet);
         newPersonDays.forEach(System.out::println);
-        System.out.println("---------------------------------------");
+        System.out.println("--------removeAll()-------------------------------");
         Set<weekDay> anotherWay = EnumSet.copyOf(allDaysSet);
         anotherWay.removeAll(annsWorkDays);
         anotherWay.forEach(System.out::println);
-        System.out.println("---------------------------------------");
+        System.out.println("-------range()--------------------------------");
         Set<weekDay> businessDays = EnumSet.range(weekDay.MONDAY,weekDay.FRIDAY);
         businessDays.forEach(System.out::println);
+        System.out.println("--------------Union-------------------------");
+        Set<weekDay> weekend = EnumSet.of(weekDay.SATURDAY, weekDay.SUNDAY);
+        EnumSet<weekDay> copyOfBusinessDays = EnumSet.copyOf(businessDays);
+        copyOfBusinessDays.addAll(weekend);
+        copyOfBusinessDays.forEach(System.out::println);
+        System.out.println("--------------Intersection-------------------------");
+        weekend.retainAll(EnumSet.of(weekDay.SUNDAY));
+        weekend.forEach(System.out::println);
         System.out.println("---------------------------------------");
 
         /*
         EnumMap is not abstract, so we can create instance of the same. But unlike other Map implementation it does not
-        have an argument onstructor.
+        have an argument constructor.
          */
         Map<weekDay, String[]> employeeMap = new EnumMap<>(weekDay.class);
         employeeMap.put(weekDay.FRIDAY, new String[]{"Ann","Mary","Bob"});
         employeeMap.put(weekDay.MONDAY, new String[]{"Bob","Mary"});
         employeeMap.forEach((k,v) -> System.out.println(k + " "+Arrays.toString(v)));
+
+        /*
+        1. What are EnumSet and EnumMap?
+            Both are specialized collection classes designed only for enums.
+            Feature	                EnumSet(abstract class)                   	     EnumMap(Concrete Class)
+            ------------------------------------------------------------------------------------------------------------
+            Data Structure          Set optimized for enums	                         Map optimized for enums
+            Implementation	        Bit vector (extremely fast)	                     Array indexed by ordinal()
+            Keys	                Enum values,	                                 Enum values,
+            Values	                None (it's a Set)	                             Any type
+            Performance	            Faster than HashSet	                             Faster than HashMap
+            Memory	                Extremely low,	                                 Extremely low
+         */
 
     }
 }
