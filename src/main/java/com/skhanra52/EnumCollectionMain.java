@@ -9,8 +9,8 @@ public class EnumCollectionMain {
     public static void main(String[] args) {
 
         // defining ann's working days for the week.
-        List<weekDay> annsWorkDays = new ArrayList<>(List.of(weekDay.MONDAY,weekDay.TUESDAY,
-                weekDay.THURSDAY,weekDay.FRIDAY));
+        List<weekDay> annsWorkDays = new ArrayList<>(List.of(weekDay.MONDAY, weekDay.TUESDAY,
+                weekDay.THURSDAY, weekDay.FRIDAY));
         // Use Ann's workdays to figure out what kind of coverage we need for other employees if we would like to hire.
         // Use the factory method of EnumSet to create a set of ann's workDays.
         EnumSet<weekDay> annsDaysSet = EnumSet.copyOf(annsWorkDays);
@@ -43,7 +43,7 @@ public class EnumCollectionMain {
         anotherWay.removeAll(annsWorkDays);
         anotherWay.forEach(System.out::println);
         System.out.println("-------range()--------------------------------");
-        Set<weekDay> businessDays = EnumSet.range(weekDay.MONDAY,weekDay.FRIDAY);
+        Set<weekDay> businessDays = EnumSet.range(weekDay.MONDAY, weekDay.FRIDAY);
         businessDays.forEach(System.out::println);
         System.out.println("--------------Union-------------------------");
         Set<weekDay> weekend = EnumSet.of(weekDay.SATURDAY, weekDay.SUNDAY);
@@ -60,9 +60,9 @@ public class EnumCollectionMain {
         have an argument constructor.
          */
         Map<weekDay, String[]> employeeMap = new EnumMap<>(weekDay.class);
-        employeeMap.put(weekDay.FRIDAY, new String[]{"Ann","Mary","Bob"});
-        employeeMap.put(weekDay.MONDAY, new String[]{"Bob","Mary"});
-        employeeMap.forEach((k,v) -> System.out.println(k + " "+Arrays.toString(v)));
+        employeeMap.put(weekDay.FRIDAY, new String[]{"Ann", "Mary", "Bob"});
+        employeeMap.put(weekDay.MONDAY, new String[]{"Bob", "Mary"});
+        employeeMap.forEach((k, v) -> System.out.println(k + " " + Arrays.toString(v)));
 
         /*
         1. What are EnumSet and EnumMap?
@@ -77,5 +77,47 @@ public class EnumCollectionMain {
             Memory	                Extremely low,	                                 Extremely low
          */
 
+        // Calling the methods from the User class
+        User suman = new User();
+        suman.grant(User.Permission.READ);
+        suman.grant(User.Permission.WRITE);
+        System.out.println("------Permissions-----------------------------");
+        System.out.println("Suman's permission:  "+suman);
+        System.out.println("Suman can read? "+suman.can(User.Permission.READ));
+        System.out.println("Suman can write? "+suman.can(User.Permission.WRITE));
+        System.out.println("Suman can update? "+suman.can(User.Permission.UPDATE));
+
+        suman.grant(User.Permission.UPDATE);
+        System.out.println("Suman can update? "+suman.can(User.Permission.UPDATE));
+    }
+}
+
+/**
+ *  Real world example of EnumSet for permission management.
+ */
+class User {
+    enum Permission{READ,WRITE,UPDATE,DELETE};
+    // Creating an empty enum called p with Permission type.
+    // Each user gets an EnumSet and hold their permission.
+    EnumSet<Permission> permissions = EnumSet.noneOf(Permission.class);
+
+    // Add a permission
+    void grant(Permission p ){
+        permissions.add(p);
+    }
+
+    // Remove a permission
+    void revoke(Permission p){
+        permissions.remove(p);
+    }
+
+    // Check if user has the permission
+    boolean can(Permission p){
+        return permissions.contains(p);
+    }
+
+    @Override
+    public String toString() {
+        return "permissions=" + permissions ;
     }
 }
