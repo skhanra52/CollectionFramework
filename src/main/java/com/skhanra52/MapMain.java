@@ -204,5 +204,37 @@ public class MapMain {
             Note: note to see the implementation of keySet()/entrySet()/values() refer MapViewMain class.
 
          */
+        /*
+        Practice 09-dec-25
+        --------------------
+        Map creation:-----------
+        Map<String,String> sampleMap = new HashMap<>();
+        Map methods:------------
+        sampleMap.put("Suman","BE");
+
+
+
+
+         */
+        // Step 1 : Create
+        Map<String,String> sampleMap = new HashMap<>();
+        sampleMap.put("Suman","BE");
+        sampleMap.put("Geetha","BE");
+        sampleMap.put("Vihu", "LKG");
+        System.out.println("sample map: "+sampleMap);
+        // Step 2: Read
+        System.out.println("Read operation of Suman : "+sampleMap.get("Suman"));
+        System.out.println("Read operation of Suman : "+sampleMap.getOrDefault("missingKey","Graduate"));
+        // Step 3: Update/Write/Insert
+//        Map<String, String> copySample = new HashMap<>(); // same can be achieved by below line in one go
+//        copySample.putAll(Map.copyOf(sampleMap));
+        Map<String, String> copySample = new HashMap<>(Map.copyOf(sampleMap));
+        copySample.putAll(new HashMap<>(Map.ofEntries(
+                Map.entry("Surajit","Graduate"),
+                Map.entry("Swagata", "Graduate"),
+                Map.entry("Shijo", "BE")
+            ))
+        );
+        System.out.println("copy of sample: "+copySample);
     }
 }
