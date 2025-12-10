@@ -1,9 +1,6 @@
 package com.skhanra52;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MapMain {
 
@@ -222,9 +219,23 @@ public class MapMain {
         sampleMap.put("Geetha","BE");
         sampleMap.put("Vihu", "LKG");
         System.out.println("sample map: "+sampleMap);
+
         // Step 2: Read
         System.out.println("Read operation of Suman : "+sampleMap.get("Suman"));
         System.out.println("Read operation of Suman : "+sampleMap.getOrDefault("missingKey","Graduate"));
+        if(sampleMap.containsKey("Suman")){
+            System.out.println("The key is available");
+        }else{
+            System.out.println("The key is not available");
+        }
+        Set<String> keys = sampleMap.keySet();
+        keys.forEach(System.out::println);
+        Set<Map.Entry<String,String>> entries = sampleMap.entrySet();
+//        entries.forEach(System.out::println);
+        for(Map.Entry<String,String> entry : entries){
+            System.out.println("key: "+entry.getKey()+ " and value: "+entry.getValue());
+        }
+
         // Step 3: Update/Write/Insert
 //        Map<String, String> copySample = new HashMap<>(); // same can be achieved by below line in one go
 //        copySample.putAll(Map.copyOf(sampleMap));
@@ -236,5 +247,27 @@ public class MapMain {
             ))
         );
         System.out.println("copy of sample: "+copySample);
+        Map<String, String[]> mergeCopy = new HashMap<>(Map.of(
+                "Surajit", new String[]{"Sr Manager"},
+                "Swagata", new String[]{"Consultant"}
+        ));
+
+        for(Map.Entry<String, String> entry : copySample.entrySet()){
+                String key = entry.getKey();
+                String[] value = new String[]{entry.getValue()};
+                System.out.println(key);
+                mergeCopy.merge(key, value, (prevValue,currValue) -> {
+                    int size = prevValue.length + currValue.length;
+                    String[] tempVal = new String[size];
+                    tempVal = Arrays.copyOf(currValue,currValue.length);
+                    tempVal = Arrays.copyOf(prevValue,prevValue.length); // need to check on this.
+
+                    return tempVal;
+                });
+        }
+        mergeCopy.forEach((k,v) -> System.out.println(k +" : " + Arrays.toString(v)));
+
+
+
     }
 }
