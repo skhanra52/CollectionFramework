@@ -247,25 +247,66 @@ public class MapMain {
             ))
         );
         System.out.println("copy of sample: "+copySample);
-        Map<String, String[]> mergeCopy = new HashMap<>(Map.of(
-                "Surajit", new String[]{"Sr Manager"},
-                "Swagata", new String[]{"Consultant"}
+
+        List<String> srManager = new ArrayList<>(List.of("Sr manager"));
+        List<String> consultant = new ArrayList<>(List.of("Consultant", "Doctor", "Psychologist"));
+        Map<String, List<String>> mergeCopy = new HashMap<>(Map.of(
+                "Surajit", srManager,
+                "Swagata", consultant
         ));
 
         for(Map.Entry<String, String> entry : copySample.entrySet()){
-                String key = entry.getKey();
-                String[] value = new String[]{entry.getValue()};
-                System.out.println(key);
-                mergeCopy.merge(key, value, (prevValue,currValue) -> {
-                    int size = prevValue.length + currValue.length;
-                    String[] tempVal = new String[size];
-                    tempVal = Arrays.copyOf(currValue,currValue.length);
-                    tempVal = Arrays.copyOf(prevValue,prevValue.length); // need to check on this.
-
-                    return tempVal;
-                });
+            String key = entry.getKey();
+            List<String> value = new ArrayList<>(List.of(entry.getValue()));
+            System.out.println(key);
+            System.out.println(entry.getValue());
+            mergeCopy.merge(key, value, (prevValue,currValue) -> {
+              prevValue.addAll(currValue);
+              return prevValue;
+            });
         }
-        mergeCopy.forEach((k,v) -> System.out.println(k +" : " + Arrays.toString(v)));
+        mergeCopy.forEach((k,v) -> System.out.println(k +" : " + v));
+
+        // Converting list to String[]
+        List<String> list = List.of("A", "B", "C");
+//        String[] arr = list.toArray(new String[0]);
+        String[] arr = list.toArray(String[]::new);
+        System.out.println(Arrays.toString(arr));
+
+        // Example of compute method.
+
+        List<PersonLog> logs = new ArrayList<>(List.of(
+                new PersonLog("U101", "login"),
+                new PersonLog("U102","logout"),
+                new PersonLog("U101", "login"),
+                new PersonLog("U103","login"),
+                new PersonLog("U101","login" ),
+                new PersonLog("U102","login" )
+        ));
+
+        Map<String, Integer> loginInfo = new HashMap<>();
+        Map<String,Integer> logoutInfo = new HashMap<>();
+        for(PersonLog person : logs){
+            if(person.getAction().equals("login")){
+                loginInfo.compute(person.getUserId(), (userId, action) -> {
+                    System.out.println(action);
+                    if(action == null){
+                        action = 1;
+                    }else{
+                        action+=1;
+                    }
+                    return action;
+                });
+            }else{
+                logoutInfo.compute(person.getUserId(), (userId, actionCount) ->
+                        actionCount == null ? 1 : actionCount+1);
+            }
+        }
+
+        loginInfo.forEach((k,v) -> System.out.println(k+" -> "+v));
+        System.out.println("--------logout-----------------");
+        logoutInfo.forEach((k,v) -> System.out.println(k+" -> "+v));
+
 
 
 
